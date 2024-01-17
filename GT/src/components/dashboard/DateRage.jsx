@@ -1,33 +1,21 @@
-import React, { useState } from 'react';
-import DateRangePicker from 'react-date-range';
+import { useState } from 'react';
+import { DateRangePicker } from 'rsuite';
+import 'rsuite/dist/rsuite-rtl.css'
 
-const DateRangeFilter = () => {
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
+const MyDateRangePicker = () => {
+    const [dateRange, setDateRange] = useState([null, null]);
 
-    const selectionRange = {
-        startDate: startDate,
-        endDate: endDate,
-        key: 'selection',
-    };
-
-    const handleSelect = (ranges) => {
-        setStartDate(ranges.selection.startDate);
-        setEndDate(ranges.selection.endDate);
+    const handleDateRangeChange = (newDateRange) => {
+        setDateRange(newDateRange);
     };
 
     return (
-        <div>
-            <h3>Date Range Filter:</h3>
-            <DateRangePicker
-                ranges={[selectionRange]}
-                onChange={handleSelect}
-            />
-            <p>
-                Selected Date Range: {startDate.toDateString()} - {endDate.toDateString()}
-            </p>
-        </div>
+        <DateRangePicker
+            value={dateRange}
+            onChange={handleDateRangeChange}
+            placeholder={['Start Date', 'End Date']}
+        />
     );
 };
 
-export default DateRangeFilter;
+export default MyDateRangePicker;
