@@ -1,6 +1,6 @@
 import Navbar from "../Layout/Navbar";
 import DateRange from './DateRage';
-
+import Data from "./Data/Data";
 const Dashboard = () => {
     return (
         <>
@@ -95,8 +95,7 @@ const Dashboard = () => {
                         </div>
                     </div>
                 </div>
-
-
+                <Data />
             </div>
         </>
     );
