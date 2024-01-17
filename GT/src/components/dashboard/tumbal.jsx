@@ -55,16 +55,20 @@ const RegistrationForm = () => {
             });
 
             if (!photoUploadResponse.ok) {
-                const errorData = await photoUploadResponse.json();
-                console.error('Error uploading photo:', errorData.message || 'Failed to upload photo.');
-                throw new Error(errorData.message || 'Failed to upload photo.');
+                const photoUploadData = await photoUploadResponse.json();
+                console.error('Error uploading photo:', photoUploadData.message || 'Failed to upload photo.');
+                throw new Error(photoUploadData.message || 'Failed to upload photo.');
             }
 
-            const photoUUID = await photoUploadResponse.json();
+            const photoUploadData = await photoUploadResponse.json();
+            if (!photoUploadData.uuid) {
+                console.error('Failed to get photo UUID. Response:', photoUploadData);
+                throw new Error('Failed to get photo UUID. Please try again.');
+            }
 
-            console.log('Photo UUID:', photoUUID);
+            console.log('Photo UUID:', photoUploadData.uuid);
 
-            return photoUUID;  // Return the response directly
+            return photoUploadData.uuid;
         } catch (error) {
             console.error('Error uploading photo:', error.message);
             throw new Error(`Error uploading photo: ${error.message}`);
@@ -82,7 +86,6 @@ const RegistrationForm = () => {
         try {
             // Step 1: Upload photo to user/photo/upload
             const photoUUID = await uploadPhoto();
-            console.log('Photo UUID:', photoUUID); // Log the photo UUID to check if it's retrieved correctly
 
             // Step 2: Register user with photo UUID
             const registrationResponse = await fetch('https://recruitment-test.gltkdev.com/user', {
@@ -218,6 +221,7 @@ const RegistrationForm = () => {
             </div>
         </div>
     );
+
 };
 
 export default RegistrationForm;

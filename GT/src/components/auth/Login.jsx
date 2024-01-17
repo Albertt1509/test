@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+
 const LoginForm = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [redirectToDashboard, setRedirectToDashboard] = useState(false);
 
     const handleUsernameChange = (e) => {
         setUsername(e.target.value);
@@ -38,7 +40,7 @@ const LoginForm = () => {
 
             if (data.access_token) {
                 setSuccessMessage('Login successful!');
-                // Setelah berhasil login, Anda bisa mengarahkan pengguna ke halaman berikutnya atau melakukan tindakan lain yang diperlukan.
+                setRedirectToDashboard(true);
             } else {
                 setErrorMessage('Login failed. Invalid username or password.');
             }
@@ -47,6 +49,10 @@ const LoginForm = () => {
             setErrorMessage('Error occurred. Please try again.');
         }
     };
+
+    if (redirectToDashboard) {
+        return window.location.href = "/dashboard";
+    }
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
