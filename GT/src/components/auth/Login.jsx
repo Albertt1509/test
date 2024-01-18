@@ -41,6 +41,9 @@ const LoginForm = () => {
             const data = await response.json();
 
             if (data.access_token) {
+                sessionStorage.setItem('jwtToken', data.access_token);
+
+                await fetchAnalyticsData();
                 toast.success('Login successful!', { position: "top-right", autoClose: 3000 });
                 setRedirectToDashboard(true);
             } else {
@@ -49,6 +52,23 @@ const LoginForm = () => {
         } catch (error) {
             console.error('Error:', error);
             toast.error('Error occurred. Please try again.', { position: "top-right", autoClose: 3000 });
+        }
+    };
+
+    const fetchAnalyticsData = async () => {
+        try {
+            const jwtToken = sessionStorage.getItem('jwtToken');
+
+            const analyticsResponse = await fetch("https://recruitment-test.gltkdev.com/analytic/click", {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${jwtToken}`
+                }
+            });
+            const analyticsData = await analyticsResponse.json();
+            console.log(analyticsData);
+        } catch (error) {
+            console.error('Error fetching analytics data:', error);
         }
     };
 

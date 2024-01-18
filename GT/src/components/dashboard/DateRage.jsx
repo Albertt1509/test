@@ -1,12 +1,16 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { DateRangePicker } from 'rsuite';
-import 'rsuite/dist/rsuite-rtl.css'
+import 'rsuite/dist/rsuite-rtl.css';
 
-const MyDateRangePicker = () => {
+const MyDateRangePicker = ({ onChange }) => {
     const [dateRange, setDateRange] = useState([null, null]);
 
     const handleDateRangeChange = (newDateRange) => {
         setDateRange(newDateRange);
+
+        if (onChange) {
+            onChange(newDateRange);
+        }
     };
 
     return (

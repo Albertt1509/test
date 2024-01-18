@@ -1,13 +1,21 @@
+import React from 'react';
+
+
 const Navbar = ({ onLogout }) => {
     const handleLogout = async () => {
         try {
+            const jwtToken = localStorage.getItem('jwtToken')
+
             const response = await fetch("https://recruitment-test.gltkdev.com/user/logout/all", {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json', // atau 'application/x-www-form-urlencoded' tergantung pada kebutuhan server
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jwtToken}`
                 },
             });
+
             if (response.ok) {
+                localStorage.removeItem('jwtToken');
                 onLogout();
             } else {
                 console.error('Logout gagal:', response.statusText);

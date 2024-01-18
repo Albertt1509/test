@@ -1,7 +1,13 @@
 import Navbar from "../Layout/Navbar";
-import DateRange from './DateRage';
+import MyDateRangePicker from './DateRage';
 import Data from "./Data/Data";
+import { useState } from "react";
 const Dashboard = () => {
+    const [selectedDateRange, setSelectedDateRange] = useState(null);
+
+    const handleDateRangeChange = (dateRange) => {
+        setSelectedDateRange(dateRange);
+    };
     return (
         <>
             <Navbar />
@@ -11,7 +17,7 @@ const Dashboard = () => {
                 </div>
                 <div className="flex flex-col lg:flex-row justify-center items-center lg:items-start">
                     <div className="mb-4 lg:mb-0 lg:mr-4">
-                        <DateRange />
+                        <MyDateRangePicker onChange={handleDateRangeChange} />
                         <div className="flex items-center mt-4">
                             <div className="flex items-center border rounded-md p-1">
                                 <input
@@ -95,7 +101,7 @@ const Dashboard = () => {
                         </div>
                     </div>
                 </div>
-                <Data />
+                <Data dateRange={selectedDateRange} />
             </div>
         </>
     );
